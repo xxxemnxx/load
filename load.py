@@ -112,36 +112,35 @@ def get_predictions(_, message):
     else:
         message.reply_text('xeta.')        
         
-        try:
 @app.on_message(filters.command("sendscore"))
 def get_predictions(_, message):
-    url = "https://footballpredictions.net/correct-score-predictions-betting-tips"
-    response = requests.get(url)
-    soup = BeautifulSoup(response.text, 'html.parser')
+    try:
+        url = "https://footballpredictions.net/correct-score-predictions-betting-tips"
+        response = requests.get(url)
+        soup = BeautifulSoup(response.text, 'html.parser')
 
-    predictions = []
+        predictions = []
 
-    
-    match_elements = soup.select('.match-card')
-    
-    for index, match_element in enumerate(match_elements, start=1):
-        teams_element = match_element.select('.team-label')
-        prediction_text = match_element.select_one('.prediction').get_text(strip=True)
-
-        teams_text = ' / '.join(team.get_text(strip=True) for team in teams_element)
-
-        if teams_text and prediction_text:
-            prediction_with_teams = f"{index}) {teams_text} ðŸ‘‘ {prediction_text}"
-            predictions.append(prediction_with_teams)
-
-    
-    if predictions:
-        message.reply_text('\n'.join(predictions))
-    else:
-        message.reply_text('XÉ™ta.')
         
+        match_elements = soup.select('.match-card')
+        
+        for index, match_element in enumerate(match_elements, start=1):
+            teams_element = match_element.select('.team-label')
+            prediction_text = match_element.select_one('.prediction').get_text(strip=True)
+
+            teams_text = ' / '.join(team.get_text(strip=True) for team in teams_element)
+
+            if teams_text and prediction_text:
+                prediction_with_teams = f"{index}) {teams_text} ðŸ‘‘ {prediction_text}"
+                predictions.append(prediction_with_teams)
+
+        
+        if predictions:
+            message.reply_text('\n'.join(predictions))
+        else:
+            message.reply_text('XÉ™ta.')
       
-except Exception as e:
-    print(f"xeta: {e}")
+    except Exception as e:
+        print(f"xeta: {e}")
 
 app.run()
