@@ -5,7 +5,7 @@ import requests
 
 API_ID = "16723398"
 API_HASH = "9e07dd89d2f39bfadfd59798705e4662"
-BOT_TOKEN = "6815920860:AAERmttyV21IVDeLYjhUy1BbJKEfGAZ-aQE"
+BOT_TOKEN = "6815920860:AAF6M1HA3ubMB1kTMjUjTlbzE-UNX5zVQ0E"
 
 app = Client("my_bot", api_id=API_ID, api_hash=API_HASH, bot_token=BOT_TOKEN)
 
