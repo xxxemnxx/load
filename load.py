@@ -1,36 +1,43 @@
-from pyrogram import Client, filters
+from pyrogram import Client
 from bs4 import BeautifulSoup
 import requests
 
-api_id = '16723398'
-api_hash = '9e07dd89d2f39bfadfd59798705e4662'
-bot_token = '6785681031:AAHjd_DZWFnwIjSEtT2kTNESikaycsk37Ks'
+API_ID = "16723398"
+API_HASH = "9e07dd89d2f39bfadfd59798705e4662"
+BOT_TOKEN = "6272490425:AAGdl_pVg3W57HzvwsNkU1OU5odyk9vRSRI"
 
-app = Client("my_bot", api_id=api_id, api_hash=api_hash, bot_token=bot_token)
 
-@app.on_message(filters.command("correct"))
-def get_correct_predictions(_, message):
+app = Client("my_bot", api_id=API_ID, api_hash=API_HASH, bot_token=BOT_TOKEN)
+
+def scrape_website():
     url = "https://footballpredictions.net/correct-score-predictions-betting-tips"
     response = requests.get(url)
-    soup = BeautifulSoup(response.text, 'html.parser')
 
-    predictions = []
+    if response.status_code == 200:
+        soup = BeautifulSoup(response.text, 'html.parser')
+        teams_elements = soup.select('.team-label')
+        predictions_elements = soup.select('.prediction')
 
-    match_elements = soup.select('.match-card')
+        result = []
+        for teams, prediction in zip(teams_elements, predictions_elements):
+            teams_text = teams.get_text(strip=True)
+            prediction_text = prediction.get_text(strip=True)
+            result.append(f"{teams_text} - {prediction_text}")
 
-    for index, match_element in enumerate(match_elements, start=1):
-        teams_element = match_element.select('.team-label')
-        prediction_text = match_element.select_one('.prediction').get_text(strip=True)
+        return result
 
-        teams_text = ' / '.join(team.get_text(strip=True) for team in teams_element)
-
-        if teams_text and prediction_text:
-            prediction_with_teams = f"{index}) {teams_text} - Dəqiq hesab {prediction_text}"
-            predictions.append(prediction_with_teams)
-
-    if predictions:
-        message.reply_text('\n'.join(predictions))
     else:
-        message.reply_text('Xəta.')
+        return f"Error: {response.status_code}"
 
-app.run()
+@app.on_message()
+def handle_message(client, message):
+    if message.text.lower() == "/get_predictions":
+        predictions = scrape_website()
+        if isinstance(predictions, list):
+            formatted_predictions = "\n".join(predictions)
+            message.reply_text(formatted_predictions)
+        else:
+            message.reply_text(predictions)
+
+if __name__ == "__main__":
+    app.run()
