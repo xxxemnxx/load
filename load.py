@@ -138,7 +138,7 @@ def get_predictions(_, message):
         if predictions:
             message.reply_text('\n'.join(predictions))
         else:
-            message.reply_text('XÉ™ta.')
+            message.reply_text(response.text)
       
     except Exception as e:
         print(f"xeta: {e}")
