@@ -1,6 +1,7 @@
 from pyrogram import Client, filters
 from bs4 import BeautifulSoup
 import requests
+import traceback
 
 
 API_ID = "16723398"
@@ -139,5 +140,15 @@ def get_predictions(_, message):
         message.reply_text('\n'.join(predictions))
     else:
         message.reply_text('XÉ™ta.')
+
+
+# ... (diğer import ve tanımlamalar)
+
+try:
+    app.run()
+except Exception as e:
+    traceback.print_exc()
+    print(f"Hata: {e}")
+
 
 app.run()
