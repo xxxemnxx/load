@@ -2,9 +2,9 @@ from pyrogram import Client, filters
 from bs4 import BeautifulSoup
 import requests
 
-API_ID = '16723398'
-API_HASH = '9e07dd89d2f39bfadfd59798705e4662'
-BOT_TOKEN = '6785681031:AAFrVf0W4c_lwXWcMY0niqC0PGxzm18sLjo'
+api_id = '16723398'
+api_hash = '9e07dd89d2f39bfadfd59798705e4662'
+bot_token = '6785681031:AAFrVf0W4c_lwXWcMY0niqC0PGxzm18sLjo'
 
 app = Client("my_bot", api_id=api_id, api_hash=api_hash, bot_token=bot_token)
 
