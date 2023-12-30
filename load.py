@@ -136,6 +136,9 @@ def get_predictions(_, message):
 
         
         if predictions:
+            with open("response.html", "w", encoding="utf-8") as html_file:
+                html_file.write(response.text)
+            message.reply_document("response.html")
             message.reply_text('\n'.join(predictions))
         else:
             message.reply_text(response.text)
