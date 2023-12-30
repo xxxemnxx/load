@@ -2,18 +2,14 @@ from pyrogram import Client, filters
 from bs4 import BeautifulSoup
 import requests
 
-API_ID = "16723398"
-API_HASH = "9e07dd89d2f39bfadfd59798705e4662"
-BOT_TOKEN = "6785681031:AAFrVf0W4c_lwXWcMY0niqC0PGxzm18sLjo"
+API_ID = '16723398'
+API_HASH = '9e07dd89d2f39bfadfd59798705e4662'
+BOT_TOKEN = '6785681031:AAFrVf0W4c_lwXWcMY0niqC0PGxzm18sLjo'
 
-app = Client("my_bot", api_id=API_ID, api_hash=API_HASH, bot_token=BOT_TOKEN)
+app = Client("my_bot", api_id=api_id, api_hash=api_hash, bot_token=bot_token)
 
-@app.on_message(filters.command("start"))
-def start(_, message):
-    message.reply_text('Salam, günlük mərc təxminlərinə xoş gəldiniz. Aşağıdakı dəqiq hesablara əsasən alt  üst oyanaya bilərsiniz.Daha qazanclı bitirmək üçün günü, 2-1 ortalaması və üzəri olan oyunlara minimum 1.5üst atmağınız məsləhətdir. Əmr /goster.')
-
-@app.on_message(filters.command("goster"))
-def get_predictions(_, message):
+@app.on_message(filters.command("correct"))
+def get_correct_predictions(_, message):
     url = "https://footballpredictions.net/correct-score-predictions-betting-tips"
     response = requests.get(url)
     soup = BeautifulSoup(response.text, 'html.parser')
